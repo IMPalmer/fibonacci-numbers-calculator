@@ -1,27 +1,51 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <math.h>
 #include <locale.h>
 
+/**
+*Находит произвольное число ряда Фибоначчи
+*
+*@param n порядковый номер ряда Фибоначчи
+*@param F значение числа ряда Фибоначчи
+*@return F значение числа ряда Фибоначчи
+*/
 double arbitrary_Fibonacci_number(int n, double  F);
 
-void next_number_of_Fibonacci_series(int n, double  F, double nextF, double prevF);
+/**
+*Находит Следующие числа ряда Фибоначчи
+*
+*@param n порядковый номер ряда Фибоначчи
+*@param F значение числа ряда Фибоначчи
+*/
+void next_number_of_Fibonacci_series(int n, double  F);
 
 int main(void)
 {
 	setlocale(LC_ALL, "Rus");
-	int n;
-	double F = 0, nextF = 0, prevF = 0;
-	printf("������� ���������� ����� ���� ���������: ");
+	int n, flag = 1;
+	double F = 0;
+	for (;;) {
+	printf("Введите порядковый номер ряда Фибоначчи: ");
 	scanf_s("%i", &n);
-	if (n >= 0) {
-		printf("���������� ������ � �������� ��������� ����� ���������\n");
-		printf("%i-�� ����� ���� ���������� ����� %g\n", n, arbitrary_Fibonacci_number(n + 1, F));
-		printf("��������� ����� ����� ���� �����: \n");
-		next_number_of_Fibonacci_series(n, F, nextF, prevF);
+	if (n >= 1474) /*Если порядковый номер больше 1474, то программа не способна найти это число Фибоначчи, она будет выводить inf */{
+		printf("%i-ое число ряда Фиббоначчи равно inf!\nСледующие числа этого ряда также равны inf!\n", n);
+		goto flag;
+	}
+	if (n >= 0) /*Проверка порядкового номера на правильность*/ {
+		printf("Порядковые номера и значения очередных чисел Фибоначчи\n");
+		printf("%i-ое число ряда Фиббоначчи равно %g\n", n, arbitrary_Fibonacci_number(n + 1, F));
+		printf("Следующие числа этого ряда равны: \n");
+		next_number_of_Fibonacci_series(n, F);
 	}
 	else
-		printf("���������� ����� �� ����� ���� �������������!\n");
-	return 0;
+		printf("Порядковый номер не может быть отрицательным! Ошибка!\n");
+	flag:printf("-------------------------------------------------------\n");
+	printf("Введите 1, если хотите продолжить, или  0, если хотите выйти из программы : ");
+	scanf_s("%i", &flag);
+	if (flag == 0)
+		return 0;
+	printf("-------------------------------------------------------\n");
+	}
 }
 
 double arbitrary_Fibonacci_number(int n, double  F)
@@ -30,12 +54,8 @@ double arbitrary_Fibonacci_number(int n, double  F)
 	return F;
 }
 
-void next_number_of_Fibonacci_series(int n, double  F, double nextF, double prevF)
+void next_number_of_Fibonacci_series(int n, double  F)
 {
-	for (int i = 0; i < 10; i++) {
-		prevF = arbitrary_Fibonacci_number(n + i, F);
-		F = arbitrary_Fibonacci_number((n + 1) + i, F);
-		nextF = prevF + F;
-		printf("%i-�� ����� ����� %g\n", (n + 1) + i, nextF);
-	}
+	for (int i = 1; i < 10; i++)
+		printf("%i-ое число ряда Фиббоначчи равно %g\n", n + i, arbitrary_Fibonacci_number((n + 1) + i, F));
 }
